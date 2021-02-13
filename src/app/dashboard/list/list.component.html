@@ -1,0 +1,77 @@
+<div class="container" style="padding: 20px 0px">
+  <div class="row">
+    <div class="col-md-4">
+      <section>
+        <span>
+          <mat-checkbox class="example-margin" [(ngModel)]="allRamSelected"
+            (ngModelChange)="setAllRams($event); applyFilter()">
+            <label> {{ram.name}} </label>
+          </mat-checkbox>
+        </span>
+
+        <span>
+          <ul>
+            <li *ngFor="let ramT of ram.ramTypes">
+              <mat-checkbox class="example-margin" [(ngModel)]="ramT.completed"
+                (ngModelChange)="checkSelectedRams; applyFilter()">
+                <label> {{ramT.name}} </label>
+              </mat-checkbox>
+            </li>
+          </ul>
+        </span>
+      </section>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Select Location</mat-label>
+        <mat-select [(ngModel)]="selectedLocation" (ngModelChange)="applyFilter()">
+          <mat-option [value]="null">None</mat-option>
+          <mat-option [value]="location" *ngFor="let location of locationList">{{location}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Select HDD Type</mat-label>
+        <mat-select [(ngModel)]="selectedHDD" (ngModelChange)="applyFilter()">
+          <mat-option [value]="null">None</mat-option>
+          <mat-option [value]="hddType" *ngFor="let hddType of hddTypeList">{{hddType}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <label> Storage Capacity </label>
+        <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="auto" min="0" max="11" step="1"
+          [(ngModel)]="selectedRange" (change)="changeStorageCapacity()"></mat-slider>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <table mat-table [dataSource]="dataSource" matSort *ngIf="dataSource.data.length > 0">
+
+        <ng-container matColumnDef="Model">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Model </th>
+          <td mat-cell *matCellDef="let element"> {{element.Model}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="RAM">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> RAM </th>
+          <td mat-cell *matCellDef="let element"> {{element.RAM}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="HDD">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> HDD </th>
+          <td mat-cell *matCellDef="let element"> {{element.HDD}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Location">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Location </th>
+          <td mat-cell *matCellDef="let element"> {{element.Location}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons [hidden]="dataSource.data.length === 0"></mat-paginator>
+      <div *ngIf="dataSource.data.length === 0">
+        No Records Found!
+      </div>
+    </div>
+  </div>
+</div>

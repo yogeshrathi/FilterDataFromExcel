@@ -1,0 +1,12 @@
+table {
+  width: 100%;
+}
+
+mat-slider {
+  width: 300px;
+}
+
+label{
+  position: relative;
+  top: 5px;
+}
